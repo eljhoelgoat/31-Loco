@@ -1,0 +1,1458 @@
+/* ==========================================================================
+   31 LOCO - BALATRO EDITION (HOJA DE ESTILOS 100% RESPONSIVE)
+   ========================================================================== */
+
+/* 1. PALETA DE COLOR Y VARIABLES BALATRO */
+:root {
+    --bg-dark: #080a11;
+    --bg-surface: #121624;
+    --bg-surface-elevated: #1a2136;
+    --bg-felt: #0c3322;
+    --bg-felt-light: #164e35;
+    
+    /* Neones y Colores Balatro */
+    --balatro-red: #fe4042;
+    --balatro-red-dark: #8c101b;
+    --balatro-blue: #00b4d8;
+    --balatro-gold: #f4a261;
+    --balatro-yellow: #ffd166;
+    --balatro-purple: #8338ec;
+    --balatro-purple-dark: #3a0ca3;
+    --balatro-green: #2ecc71;
+    --balatro-dark-green: #116834;
+    --balatro-orange: #f77f00;
+
+    /* Naipes */
+    --card-spade: #3a86ff;
+    --card-heart: #ff0054;
+    --card-club: #00f5d4;
+    --card-diamond: #ffbe0b;
+    
+    /* Textos y Sombras */
+    --text-main: #f0f3f8;
+    --text-muted: #8b9bb4;
+    --text-dark: #10121a;
+
+    --glow-gold: 0 0 16px rgba(255, 209, 102, 0.6);
+    --glow-blue: 0 0 14px rgba(0, 180, 216, 0.55);
+    --glow-red: 0 0 16px rgba(254, 64, 66, 0.55);
+    --glow-purple: 0 0 16px rgba(131, 56, 236, 0.6);
+    
+    --pixel-border: 2px solid #000;
+    --shadow-arcade: 0 5px 0 #080910;
+
+    /* Fuentes */
+    --font-pixel: 'Press Start 2P', monospace;
+    --font-arcade: 'VT323', monospace;
+    --font-mono: 'Share Tech Mono', monospace;
+}
+
+/* 2. RESET Y BASES */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+html, body {
+    width: 100%;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    background-color: var(--bg-dark);
+    background-image: url('img/balatro-jimbo.gif'); 
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--text-main);
+    font-family: var(--font-mono);
+    font-size: 16px;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* 3. CAPAS CRT RETRO */
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 999;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.28) 50%);
+    background-size: 100% 4px;
+    opacity: 0.55;
+}
+
+.crt-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 998;
+    background: radial-gradient(circle at center, transparent 60%, rgba(0, 0, 0, 0.8) 100%);
+    box-shadow: inset 0 0 70px rgba(0,0,0,0.85);
+}
+
+/* 4. CONTENEDOR GENERAL */
+.app-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    min-height: 100vh;
+    padding: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 10;
+}
+
+.screen-view {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.hidden-view {
+    display: none !important;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   5. PANTALLA DE BIENVENIDA (TÍTULO MASIVO Y CENTRADO)
+   ========================================================================== */
+.welcome-centered-screen {
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.welcome-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: 680px;
+    background: rgba(10, 13, 22, 0.85);
+    border: 3px solid #2f3a58;
+    border-radius: 16px;
+    padding: 2.5rem 1.2rem;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.85), 0 0 25px rgba(0, 180, 216, 0.15);
+    backdrop-filter: blur(8px);
+}
+
+.welcome-header {
+    margin-bottom: 2rem;
+}
+
+.logo-badge {
+    display: inline-block;
+    font-family: var(--font-pixel);
+    font-size: 0.6rem;
+    color: var(--balatro-yellow);
+    background: rgba(255, 209, 102, 0.15);
+    border: 1px dashed var(--balatro-yellow);
+    padding: 5px 12px;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    letter-spacing: 2px;
+}
+
+.massive-title {
+    font-family: var(--font-arcade);
+    font-size: clamp(4.2rem, 14vw, 8.5rem);
+    line-height: 0.9;
+    color: var(--balatro-red);
+    text-shadow: 5px 5px 0 var(--balatro-blue), -3px -3px 0 var(--balatro-yellow), 0 0 20px rgba(254, 64, 66, 0.5);
+    letter-spacing: 4px;
+    margin-bottom: 0.6rem;
+    animation: titlePulse 2.8s ease-in-out infinite alternate;
+}
+
+@keyframes titlePulse {
+    0% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.02) rotate(-0.5deg); }
+    100% { transform: scale(1) rotate(0.5deg); }
+}
+
+.sub-title {
+    font-family: var(--font-pixel);
+    font-size: clamp(0.7rem, 2.3vw, 1.05rem);
+    color: var(--balatro-blue);
+    text-shadow: 0 0 8px rgba(0, 180, 216, 0.6);
+    letter-spacing: 3px;
+}
+
+.welcome-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.9rem;
+    width: 100%;
+}
+
+.btn-balatro-start {
+    font-size: 1.25rem !important;
+    padding: 1.2rem 2.5rem !important;
+    width: 100%;
+    max-width: 380px;
+    background: var(--balatro-red);
+    box-shadow: 0 7px 0 var(--balatro-red-dark), 0 0 16px rgba(254, 64, 66, 0.4);
+    letter-spacing: 2px;
+    border-color: #ff9da1;
+}
+
+.btn-jokers-start {
+    font-size: 0.85rem !important;
+    padding: 0.95rem 2rem !important;
+    width: 100%;
+    max-width: 340px;
+    background: #5a189a;
+    border-color: #9d4edd;
+    color: #fff;
+    box-shadow: 0 5px 0 #240046, var(--glow-purple);
+    letter-spacing: 1px;
+}
+
+.btn-rules-start {
+    font-size: 0.78rem !important;
+    padding: 0.85rem 1.8rem !important;
+    width: 100%;
+    max-width: 340px;
+    background: #252e47;
+    border-color: #4b5c87;
+    box-shadow: 0 5px 0 #111524;
+}
+
+/* ==========================================================================
+   6. BOTONES ARCADE
+   ========================================================================== */
+.btn {
+    font-family: var(--font-pixel);
+    font-size: 0.72rem;
+    padding: 0.8rem 1.1rem;
+    border: var(--pixel-border);
+    border-radius: 6px;
+    cursor: pointer;
+    text-transform: uppercase;
+    text-align: center;
+    transition: transform 0.08s ease, filter 0.12s ease, box-shadow 0.08s ease;
+    box-shadow: var(--shadow-arcade);
+    color: var(--text-main);
+    background: var(--bg-surface-elevated);
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 0 #000;
+}
+
+.btn:hover {
+    filter: brightness(1.15);
+}
+
+.btn-primary {
+    background: var(--balatro-red);
+    color: #fff;
+    box-shadow: 0 6px 0 var(--balatro-red-dark);
+}
+
+.btn-secondary {
+    background: #273048;
+    border-color: #4a5a82;
+    box-shadow: 0 5px 0 #121724;
+}
+
+.btn-confirm {
+    background: var(--balatro-green);
+    color: #04240f;
+    box-shadow: 0 5px 0 #125726;
+}
+
+.btn-danger {
+    background: #a81c32;
+    color: #fff;
+    box-shadow: 0 5px 0 #570815;
+}
+
+.btn-strong {
+    background: linear-gradient(135deg, #7b2cbf, #ff007f);
+    border-color: #f72585;
+    box-shadow: 0 5px 0 #3c096c;
+}
+
+.btn-shop {
+    background: var(--balatro-yellow);
+    color: var(--text-dark);
+    font-weight: bold;
+    box-shadow: 0 5px 0 #9c7811;
+    position: relative;
+}
+
+.balatro-shop-pulse {
+    animation: shopGlow 1.8s infinite alternate;
+}
+
+@keyframes shopGlow {
+    from { box-shadow: 0 5px 0 #9c7811, 0 0 5px rgba(255, 209, 102, 0.4); }
+    to { box-shadow: 0 5px 0 #9c7811, 0 0 16px rgba(255, 209, 102, 0.85); }
+}
+
+.btn-icon {
+    font-size: 1.3rem;
+    background: var(--bg-surface);
+    border: 2px solid #3c445c;
+    border-radius: 6px;
+    padding: 0.35rem 0.75rem;
+    cursor: pointer;
+    box-shadow: var(--shadow-arcade);
+}
+
+.btn-helper, .btn-subtext {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    opacity: 0.85;
+    text-transform: none;
+}
+
+.badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--balatro-red);
+    color: #fff;
+    font-size: 0.6rem;
+    padding: 2px 6px;
+    border-radius: 50%;
+    animation: pulseBadge 1.2s infinite alternate;
+}
+
+@keyframes pulseBadge {
+    from { transform: scale(0.9); }
+    to { transform: scale(1.25); }
+}
+
+/* ==========================================================================
+   7. HUD DE PARTIDA
+   ========================================================================== */
+.game-hud {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 0.6rem;
+    background: var(--bg-surface);
+    border: 2px solid #283248;
+    border-radius: 8px;
+    padding: 0.6rem;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+}
+
+.hud-box {
+    background: #0f121d;
+    border: 1px solid #222b3f;
+    border-radius: 6px;
+    padding: 0.4rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hud-label {
+    font-family: var(--font-pixel);
+    font-size: 0.5rem;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+}
+
+.currency-display {
+    font-family: var(--font-arcade);
+    font-size: 2.1rem;
+    line-height: 1;
+    color: var(--balatro-yellow);
+    text-shadow: var(--glow-gold);
+}
+
+.round-counter-display {
+    font-family: var(--font-arcade);
+    font-size: 1.9rem;
+    line-height: 1;
+}
+
+.counter-highlight {
+    color: var(--balatro-blue);
+    text-shadow: var(--glow-blue);
+}
+
+.counter-divider {
+    color: var(--text-muted);
+    margin: 0 2px;
+}
+
+.wins-badges-container {
+    display: flex;
+    gap: 5px;
+    font-size: 1.2rem;
+    color: var(--balatro-red);
+    line-height: 1;
+    margin: 2px 0;
+}
+
+.win-token.active-win {
+    color: var(--balatro-red);
+    text-shadow: var(--glow-red);
+}
+
+.hud-subtext {
+    font-size: 0.62rem;
+    color: var(--text-muted);
+}
+
+.hud-controls {
+    flex-direction: row;
+    gap: 0.4rem;
+}
+
+/* 8. CONTROLES DE TURNO */
+.turn-economy-controls {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 0.5rem;
+    margin: 0.8rem 0;
+}
+
+.btn-action-turn {
+    background: #1b5b3a;
+    border-color: #2f8e5b;
+    box-shadow: 0 5px 0 #0d341f;
+}
+
+.btn-action-money {
+    background: #503d15;
+    border-color: #b08219;
+    box-shadow: 0 5px 0 #281e08;
+}
+
+.btn-action-win {
+    background: #731725;
+    border-color: #e63946;
+    box-shadow: 0 5px 0 #3b0a12;
+}
+
+/* ==========================================================================
+   9. ZONA DE CARTAS
+   ========================================================================== */
+.cards-zone {
+    background: radial-gradient(circle at center, #1b4733 0%, #091710 100%);
+    border: 3px solid #336148;
+    border-radius: 12px;
+    padding: 1.4rem 0.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.8);
+    margin-bottom: 0.9rem;
+}
+
+.card-interaction-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.game-card {
+    width: 185px;
+    height: 260px;
+    perspective: 1000px;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+
+.game-card:hover {
+    transform: translateY(-4px) scale(1.02);
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-style: preserve-3d;
+    border-radius: 12px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.65);
+}
+
+.game-card.card-face-down .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-side {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 12px;
+    border: 4px solid #fff;
+    overflow: hidden;
+}
+
+.card-back {
+    background: repeating-linear-gradient(
+        45deg,
+        #b21e35,
+        #b21e35 12px,
+        #d12642 12px,
+        #d12642 24px
+    );
+    border-color: #f7e1b5;
+    transform: rotateY(180deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-back-pattern {
+    position: absolute;
+    inset: 6px;
+    border: 2px dashed #f7e1b5;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+.card-back-logo {
+    font-family: var(--font-arcade);
+    font-size: 5rem;
+    color: #f7e1b5;
+    text-shadow: 4px 4px 0 #5f0917;
+    z-index: 2;
+}
+
+.card-front {
+    background: #fdfaf2;
+    color: var(--text-dark);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 8px;
+    position: relative;
+}
+
+.card-corner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+    z-index: 2;
+}
+
+.card-corner.top-left { align-self: flex-start; }
+.card-corner.bottom-right { 
+    align-self: flex-end; 
+    transform: rotate(180deg); 
+}
+
+.card-val {
+    font-family: var(--font-arcade);
+    font-size: 2.1rem;
+    font-weight: bold;
+}
+
+.card-suit {
+    font-size: 1.3rem;
+}
+
+.card-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-suit-massive {
+    font-size: 4.8rem;
+    line-height: 1;
+    filter: drop-shadow(2px 3px 0 rgba(0, 0, 0, 0.15));
+}
+
+.card-custom-img {
+    position: absolute;
+    width: 86%;
+    height: 86%;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #232938;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    z-index: 1;
+}
+
+.hidden-img {
+    display: none !important;
+}
+
+.suit-red { color: #d62246 !important; }
+.suit-black { color: #1e222e !important; }
+
+/* CAJA DE EFECTO */
+.card-effect-box {
+    background: #0f1320;
+    border: 2px solid var(--balatro-yellow);
+    border-radius: 8px;
+    padding: 0.8rem 1.2rem;
+    text-align: center;
+    max-width: 460px;
+    width: 100%;
+    box-shadow: var(--glow-gold);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.card-effect-box.effect-hidden {
+    opacity: 0.45;
+    border-color: #3b4359;
+    box-shadow: none;
+}
+
+.effect-tag {
+    display: inline-block;
+    font-family: var(--font-pixel);
+    font-size: 0.52rem;
+    background: #20273a;
+    color: var(--balatro-blue);
+    padding: 3px 7px;
+    border-radius: 4px;
+    margin-bottom: 0.3rem;
+}
+
+.effect-title {
+    font-family: var(--font-arcade);
+    font-size: 1.5rem;
+    color: var(--balatro-yellow);
+    margin-bottom: 0.2rem;
+}
+
+.effect-body {
+    font-size: 0.9rem;
+    line-height: 1.3;
+    color: var(--text-main);
+}
+
+.deck-controls {
+    display: flex;
+    gap: 0.6rem;
+    width: 100%;
+    max-width: 500px;
+    margin-top: 1rem;
+}
+
+.btn-draw {
+    flex: 1;
+    min-height: 56px;
+}
+
+/* 10. INVENTARIO */
+.inventory-zone {
+    background: var(--bg-surface);
+    border: 2px solid #262e42;
+    border-radius: 8px;
+    padding: 0.8rem;
+}
+
+.inventory-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.6rem;
+    border-bottom: 1px solid #262e42;
+    padding-bottom: 0.3rem;
+}
+
+.inventory-title {
+    font-family: var(--font-pixel);
+    font-size: 0.7rem;
+    color: var(--balatro-blue);
+}
+
+.inventory-slots-count {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.inventory-items-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
+    gap: 0.6rem;
+}
+
+.empty-inventory-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    padding: 1rem;
+    border: 1px dashed #2d3850;
+    border-radius: 6px;
+}
+
+.inventory-item-card {
+    background: #101422;
+    border: 2px solid var(--balatro-purple);
+    border-radius: 6px;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    text-align: center;
+    animation: popIn 0.2s ease-out;
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.85); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.inventory-item-icon {
+    font-size: 1.6rem;
+}
+
+.inventory-item-name {
+    font-family: var(--font-pixel);
+    font-size: 0.55rem;
+    color: var(--balatro-yellow);
+}
+
+.btn-use-item {
+    font-size: 0.6rem;
+    padding: 0.35rem 0.5rem;
+    background: var(--balatro-purple);
+    border-color: #c77dff;
+    width: 100%;
+}
+
+/* ==========================================================================
+   11. TIENDA ROGUELIKE BALATRO (3 OFERTAS ALEATORIAS)
+   ========================================================================== */
+.shop-modal-balatro {
+    max-width: 96vw;
+    width: 1040px;
+    border: none;
+    background: transparent;
+    margin: auto;
+    padding: 0;
+    outline: none;
+}
+
+.shop-modal-balatro::backdrop {
+    background: rgba(4, 6, 12, 0.9);
+    backdrop-filter: blur(6px);
+}
+
+.balatro-shop-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 1rem;
+    background: #0f131f;
+    border: 3px solid var(--balatro-yellow);
+    border-radius: 12px;
+    padding: 1.2rem;
+    box-shadow: 0 0 35px rgba(255, 209, 102, 0.4), 0 20px 60px rgba(0, 0, 0, 0.95);
+    max-height: 90vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.balatro-shop-sidebar {
+    background: #161c2e;
+    border: 2px solid #2d3858;
+    border-radius: 8px;
+    padding: 0.8rem 0.6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6);
+}
+
+.shop-keeper-frame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    width: 100%;
+}
+
+.shop-keeper-avatar-wrapper {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    border: 2px solid var(--balatro-yellow);
+    background: #0a0d17;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--glow-gold);
+    animation: jimboBob 3s ease-in-out infinite alternate;
+}
+
+@keyframes jimboBob {
+    0% { transform: translateY(0) rotate(-1deg); }
+    100% { transform: translateY(-3px) rotate(1deg); }
+}
+
+.shop-keeper-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.balatro-funds-display {
+    width: 100%;
+    background: #090c15;
+    border: 1px solid #3d4a6e;
+    border-radius: 6px;
+    padding: 0.5rem;
+    text-align: center;
+}
+
+.funds-label {
+    font-family: var(--font-pixel);
+    font-size: 0.5rem;
+    color: var(--text-muted);
+}
+
+.funds-amount {
+    font-family: var(--font-arcade);
+    font-size: 2.3rem;
+    color: var(--balatro-yellow);
+    line-height: 1;
+    text-shadow: var(--glow-gold);
+    margin-top: 2px;
+}
+
+.funds-dollar {
+    font-size: 1.6rem;
+    color: var(--balatro-green);
+    margin-right: 2px;
+}
+
+.btn-balatro-reroll {
+    width: 100%;
+    background: #9b2226;
+    border-color: #e63946;
+    box-shadow: 0 5px 0 #590d11;
+    padding: 0.75rem 0.4rem;
+}
+
+.reroll-title {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.reroll-price {
+    font-family: var(--font-arcade);
+    font-size: 1.5rem;
+    color: var(--balatro-yellow);
+    line-height: 1;
+}
+
+.btn-balatro-next {
+    width: 100%;
+    margin-top: auto;
+    background: var(--balatro-green);
+    color: #04240f;
+    border-color: #6ef1a8;
+    box-shadow: 0 5px 0 #10632a;
+    font-size: 0.72rem;
+    padding: 0.9rem 0.5rem;
+}
+
+.balatro-shop-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.shop-top-marquee {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px dashed #3d4a6e;
+    padding-bottom: 0.4rem;
+}
+
+.balatro-shop-title {
+    font-family: var(--font-arcade);
+    font-size: 3rem;
+    color: var(--balatro-yellow);
+    text-shadow: 3px 3px 0 var(--balatro-red-dark), var(--glow-gold);
+    line-height: 0.9;
+}
+
+.shop-sub-tip {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+.btn-close-compact {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.8rem;
+    cursor: pointer;
+    line-height: 1;
+    display: none;
+}
+
+.shelf-enhancers {
+    background: radial-gradient(circle at center, #18422e 0%, #0c2419 100%);
+    border: 3px solid #286b46;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.75);
+}
+
+.shelf-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.9rem;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+    padding-bottom: 0.4rem;
+}
+
+.shelf-category-title {
+    font-family: var(--font-pixel);
+    font-size: 0.7rem;
+    color: var(--balatro-yellow);
+    letter-spacing: 1px;
+}
+
+.shelf-tip-tag {
+    font-size: 0.65rem;
+    color: #c7ded2;
+}
+
+/* Grid de 3 columnas balanceadas */
+.balatro-enhancers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.enhancer-card {
+    background: #111524;
+    border: 2px solid #4a5c8c;
+    border-radius: 8px;
+    padding: 0.8rem 0.6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.7);
+    animation: balatroCardWobble 3.5s ease-in-out infinite alternate;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.enhancer-card:nth-child(even) {
+    animation-delay: -1.8s;
+}
+
+@keyframes balatroCardWobble {
+    0% { transform: translateY(0px) rotate(-1.5deg); }
+    50% { transform: translateY(-4px) rotate(1.5deg); }
+    100% { transform: translateY(0px) rotate(-1deg); }
+}
+
+.enhancer-card:hover {
+    transform: translateY(-5px) scale(1.03) !important;
+    border-color: var(--balatro-yellow);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.8), var(--glow-gold);
+}
+
+.enhancer-badge {
+    position: absolute;
+    top: -8px;
+    background: var(--balatro-purple);
+    color: #fff;
+    font-family: var(--font-pixel);
+    font-size: 0.48rem;
+    padding: 2px 7px;
+    border-radius: 4px;
+    border: 1px solid #fff;
+    letter-spacing: 0.5px;
+    z-index: 2;
+}
+
+.enhancer-art-slot {
+    width: 100%;
+    height: 95px;
+    border-radius: 6px;
+    background: #090b14;
+    border: 1px solid #36425e;
+    margin: 0.4rem 0;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.enhancer-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.enhancer-icon-fallback {
+    font-size: 2.5rem;
+    line-height: 1;
+}
+
+.enhancer-name {
+    font-family: var(--font-pixel);
+    font-size: 0.65rem;
+    color: var(--balatro-yellow);
+    margin-bottom: 0.35rem;
+    line-height: 1.25;
+}
+
+.enhancer-desc {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    line-height: 1.3;
+    min-height: 48px;
+    margin-bottom: 0.6rem;
+}
+
+.enhancer-footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #2a344d;
+    padding-top: 0.5rem;
+    margin-top: auto;
+}
+
+.enhancer-price-tag {
+    font-family: var(--font-arcade);
+    font-size: 2rem;
+    color: var(--balatro-green);
+    line-height: 1;
+}
+
+.btn-buy-enhancer {
+    font-size: 0.62rem;
+    padding: 0.45rem 0.7rem;
+    background: var(--balatro-dark-green);
+    border-color: var(--balatro-green);
+    color: #fff;
+}
+
+/* ==========================================================================
+   12. INTERFAZ DE JOKERS (6 DIVISIONES FORMATO MÓVIL Y ESCRITORIO)
+   ========================================================================== */
+.jokers-modal {
+    max-width: 95vw;
+    width: 880px;
+    margin: auto;
+}
+
+.jokers-modal-content {
+    background: #0e111d;
+    border: 3px solid var(--balatro-purple);
+    box-shadow: 0 0 30px rgba(131, 56, 236, 0.5), 0 20px 50px rgba(0, 0, 0, 0.9);
+}
+
+.jokers-content {
+    max-height: 72vh;
+    overflow-y: auto;
+    padding: 0.4rem 0.2rem;
+}
+
+.jokers-subheading {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 0.8rem;
+}
+
+/* GRID DE LOS 6 JOKERS */
+.jokers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.8rem;
+}
+
+.joker-slot-card {
+    background: #141829;
+    border: 2px solid #5a388a;
+    border-radius: 8px;
+    padding: 0.7rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
+    transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.joker-slot-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--balatro-yellow);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.8), var(--glow-purple);
+}
+
+.joker-slot-badge {
+    position: absolute;
+    top: -7px;
+    left: 8px;
+    background: var(--balatro-purple-dark);
+    color: #fff;
+    font-family: var(--font-pixel);
+    font-size: 0.48rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--balatro-purple);
+}
+
+.joker-slot-art {
+    width: 100%;
+    height: 90px;
+    border-radius: 6px;
+    background: #080a13;
+    border: 1px solid #3d2b63;
+    margin: 0.4rem 0 0.5rem 0;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+}
+
+.joker-slot-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.joker-slot-fallback-icon {
+    font-size: 2.6rem;
+    line-height: 1;
+}
+
+.joker-slot-title {
+    font-family: var(--font-pixel);
+    font-size: 0.62rem;
+    color: var(--balatro-yellow);
+    margin-bottom: 0.35rem;
+    line-height: 1.25;
+}
+
+.joker-slot-desc {
+    font-size: 0.72rem;
+    color: var(--text-main);
+    line-height: 1.3;
+    min-height: 48px;
+}
+
+/* ==========================================================================
+   13. OTROS MODALES (REGLAS Y DINERO)
+   ========================================================================== */
+.modal-dialog {
+    background: transparent;
+    border: none;
+    margin: auto;
+    padding: 0;
+    overflow: visible;
+}
+
+.modal-dialog::backdrop {
+    background: rgba(6, 8, 14, 0.88);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: var(--bg-surface-elevated);
+    border: 3px solid #4a577d;
+    border-radius: 10px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.85);
+    padding: 1.2rem;
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    max-width: 90vw;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #36415f;
+    padding-bottom: 0.5rem;
+}
+
+.modal-title {
+    font-family: var(--font-pixel);
+    font-size: 0.85rem;
+    color: var(--balatro-yellow);
+}
+
+.btn-close {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.6rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.6rem;
+    border-top: 1px solid #36415f;
+    padding-top: 0.6rem;
+}
+
+.money-input-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.money-input-group input {
+    width: 130px;
+    font-family: var(--font-arcade);
+    font-size: 2.2rem;
+    background: #090b12;
+    border: 2px solid var(--balatro-yellow);
+    color: var(--balatro-yellow);
+    text-align: center;
+    border-radius: 6px;
+    padding: 0.2rem;
+}
+
+.rules-content {
+    max-height: 55vh;
+    overflow-y: auto;
+    font-size: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.rules-section h3 {
+    font-family: var(--font-pixel);
+    font-size: 0.7rem;
+    color: var(--balatro-blue);
+    margin-bottom: 0.3rem;
+}
+
+.rules-section ul {
+    padding-left: 1rem;
+}
+
+.rules-section li {
+    margin-bottom: 0.3rem;
+}
+
+/* ==========================================================================
+   14. ADAPTACIÓN A CELULARES Y TABLETS
+   ========================================================================== */
+@media (max-width: 820px) {
+    .balatro-enhancers-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .jokers-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* CELULARES (< 700px) */
+@media (max-width: 700px) {
+    .app-container {
+        padding: 0.4rem;
+    }
+
+    .welcome-box {
+        padding: 2rem 0.8rem;
+    }
+
+    .massive-title {
+        font-size: 3.8rem;
+    }
+
+    .btn-balatro-start {
+        font-size: 1.1rem !important;
+        padding: 1rem 1.8rem !important;
+    }
+
+    .game-hud {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.4rem;
+    }
+
+    .turn-economy-controls {
+        grid-template-columns: 1fr;
+        gap: 0.4rem;
+    }
+
+    .deck-controls {
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+
+    .game-card {
+        width: 155px;
+        height: 225px;
+    }
+
+    .card-suit-massive {
+        font-size: 3.8rem;
+    }
+
+    /* TIENDA EN FORMATO MÓVIL */
+    .shop-modal-balatro {
+        max-width: 98vw;
+        width: 100%;
+    }
+
+    .balatro-shop-layout {
+        grid-template-columns: 1fr;
+        padding: 0.8rem 0.6rem;
+        gap: 0.8rem;
+        max-height: 94vh;
+    }
+
+    .balatro-shop-sidebar {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 0.6rem;
+        gap: 0.5rem;
+    }
+
+    .shop-keeper-frame {
+        width: auto;
+        flex-direction: row;
+        gap: 0.5rem;
+    }
+
+    .shop-keeper-avatar-wrapper {
+        width: 60px;
+        height: 60px;
+    }
+
+    .balatro-funds-display {
+        width: auto;
+        padding: 0.3rem 0.6rem;
+        flex-grow: 1;
+    }
+
+    .funds-amount {
+        font-size: 1.8rem;
+    }
+
+    .btn-balatro-reroll {
+        flex: 1;
+        padding: 0.5rem;
+    }
+
+    .btn-balatro-next {
+        flex: 1;
+        margin-top: 0;
+        padding: 0.5rem;
+    }
+
+    .btn-close-compact {
+        display: block;
+    }
+
+    .balatro-shop-title {
+        font-size: 2.3rem;
+    }
+
+    /* 3 OFERTAS EN MÓVIL */
+    .balatro-enhancers-grid {
+        grid-template-columns: 1fr;
+        gap: 0.7rem;
+    }
+
+    .enhancer-art-slot {
+        height: 75px;
+    }
+
+    /* FORMATO MÓVIL DIVIDIDO EN 6 PARA LOS JOKERS (2 columnas x 3 filas) */
+    .jokers-modal {
+        max-width: 98vw;
+        width: 100%;
+    }
+
+    .jokers-modal-content {
+        padding: 0.8rem 0.5rem;
+    }
+
+    .jokers-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
+
+    .joker-slot-card {
+        padding: 0.5rem 0.4rem;
+    }
+
+    .joker-slot-art {
+        height: 70px;
+    }
+
+    .joker-slot-title {
+        font-size: 0.52rem;
+    }
+
+    .joker-slot-desc {
+        font-size: 0.62rem;
+        min-height: 40px;
+    }
+}

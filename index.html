@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>31 Loco</title>
+    <!-- Vinculación de estilos -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Fuentes retro arcade y Balatro -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body class="balatro-theme">
+
+    <!-- CAPAS DE EFECTO RETRO (CRT / SCANLINES) -->
+    <div id="crt-overlay" class="crt-overlay" aria-hidden="true"></div>
+    <div id="scanlines" class="scanlines" aria-hidden="true"></div>
+
+    <!-- CONTENEDOR PRINCIPAL DE LA APLICACIÓN -->
+    <div id="app-container" class="app-container">
+
+        <!-- ========================================== -->
+        <!-- 1. PANTALLA DE BIENVENIDA (CENTRAL Y MASIVA) -->
+        <!-- ========================================== -->
+        <section id="screen-welcome" class="screen-view active-view welcome-centered-screen" aria-label="Pantalla de Bienvenida">
+            <div class="welcome-box">
+                <header class="welcome-header">
+                    <div class="logo-badge">Para un Black Jack especial</div>
+                    <h1 id="main-title" class="glitch-title massive-title" data-text="31 LOCO">31 LOCO</h1>
+                    <h2 class="sub-title">Black Jack expansion</h2>
+                </header>
+
+                <div class="welcome-actions">
+                    <!-- Botón Principal para comenzar -->
+                    <button id="btn-start-game" class="btn btn-primary btn-balatro-start">Listo?</button>
+                    <!-- Botón para ver la interfaz de Jokers -->
+                    <button id="btn-open-jokers" class="btn btn-secondary btn-jokers-start">Jokers</button>
+                    <!-- Botón complementario de Reglas y Dudas -->
+                    <button id="btn-open-base-rules" class="btn btn-secondary btn-rules-start">Reglas Base & Dudas</button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- 2. INTERFAZ PRINCIPAL DE PARTIDA (MESA)    -->
+        <!-- ========================================== -->
+        <main id="screen-game" class="screen-view hidden-view" aria-label="Mesa de Juego Activa">
+            
+            <!-- BARRA SUPERIOR (HUD / ESTADÍSTICAS BALATRO) -->
+            <header class="game-hud">
+                <!-- Contador de Dinero -->
+                <div class="hud-box economy-counter" id="hud-economy">
+                    <span class="hud-label">DINERO</span>
+                    <div class="currency-display">
+                        <span class="currency-symbol">$</span>
+                        <span id="player-money-display" class="currency-value">10</span>
+                    </div>
+                </div>
+
+                <!-- Contador de Rondas (Máximo 7) -->
+                <div class="hud-box round-tracker" id="hud-rounds">
+                    <span class="hud-label">RONDA</span>
+                    <div class="round-counter-display">
+                        <span id="current-round-display" class="counter-highlight">1</span>
+                        <span class="counter-divider">/</span>
+                        <span id="max-rounds-display">7</span>
+                    </div>
+                </div>
+
+                <!-- Marcador de Victorias (Meta: 3) -->
+                <div class="hud-box wins-tracker" id="hud-wins">
+                    <span class="hud-label">VICTORIAS</span>
+                    <div class="wins-badges-container" id="wins-badges-container">
+                        <span class="win-token" data-win-index="1">○</span>
+                        <span class="win-token" data-win-index="2">○</span>
+                        <span class="win-token" data-win-index="3">○</span>
+                    </div>
+                    <span id="wins-text-indicator" class="hud-subtext">0 de 3 para ganar</span>
+                </div>
+
+                <!-- Controles Globales -->
+                <div class="hud-box hud-controls">
+                    <button id="btn-hud-jokers" class="btn-icon" title="Ver Jokers">🃏</button>
+                    <button id="btn-hud-rules" class="btn-icon" title="Ver Reglas">📖</button>
+                    <button id="btn-hud-shop" class="btn btn-shop balatro-shop-pulse" title="Ir a la Tienda">
+                        TIENDA <span id="shop-notification-badge" class="badge">!</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- CONTROLES DE TURNO Y ECONOMÍA -->
+            <section class="turn-economy-controls" aria-label="Acciones de Turno y Dinero">
+                <button id="btn-pass-turn" class="btn btn-action-turn">
+                    PASAR TURNO <span class="btn-helper">(+ $5)</span>
+                </button>
+                <button id="btn-open-manual-money" class="btn btn-action-money">
+                    ± Dinero Manual
+                </button>
+                <button id="btn-register-win" class="btn btn-action-win">
+                    + Registrar Ronda Ganada
+                </button>
+            </section>
+
+
+            <!-- ========================================== -->
+            <!-- 3. ZONA DE CARTAS                          -->
+            <!-- ========================================== -->
+            <section class="cards-zone" aria-label="Zona de Robo y Efecto Digital">
+                
+                <div class="card-interaction-wrapper">
+                    <!-- Carta Interactiva Volteable -->
+                    <div id="interactive-card" class="game-card card-face-down" tabindex="0" role="button" aria-expanded="false" aria-label="Carta activa. Haz clic para revelar efecto.">
+                        <div class="card-inner">
+                            <!-- Reverso Balatro -->
+                            <div class="card-side card-back" id="card-back-element">
+                                <div class="card-back-pattern"></div>
+                                <div class="card-back-logo">31</div>
+                            </div>
+                            
+                            <!-- Anverso con Soporte de Foto Configurada -->
+                            <div class="card-side card-front" id="card-front-element">
+                                <div class="card-corner top-left">
+                                    <span id="card-value-tl" class="card-val">?</span>
+                                    <span id="card-suit-tl" class="card-suit">♠</span>
+                                </div>
+
+                                <!-- Contenedor central (Imagen configurada o Palo Gigante) -->
+                                <div class="card-center">
+                                    <img id="card-custom-image" class="card-custom-img hidden-img" src="" alt="Foto de la carta">
+                                    <div id="card-suit-center" class="card-suit-massive">♠</div>
+                                </div>
+
+                                <div class="card-corner bottom-right">
+                                    <span id="card-value-br" class="card-val">?</span>
+                                    <span id="card-suit-br" class="card-suit">♠</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel de Efecto Activo -->
+                    <div id="card-effect-container" class="card-effect-box effect-hidden">
+                        <span class="effect-tag" id="card-type-tag">TIPO DE CARTA</span>
+                        <h4 id="card-effect-title" class="effect-title">Toca la carta para revelar</h4>
+                        <p id="card-effect-description" class="effect-body">Roba una carta para consultar el efecto especial de esta ronda.</p>
+                    </div>
+                </div>
+
+                <!-- Botones de Robo -->
+                <div class="deck-controls">
+                    <button id="btn-draw-random" class="btn btn-primary btn-draw">
+                        ROBAR CARTA ALEATORIA
+                    </button>
+                    <button id="btn-draw-strong" class="btn btn-strong btn-draw">
+                        FORZAR CARTA FUERTE (A, J, Q, K)
+                        <span class="btn-subtext">Uso si no salió en 2 rondas</span>
+                    </button>
+                </div>
+            </section>
+
+
+            <!-- INVENTARIO DE CONSUMIBLES ACTIVOS -->
+            <section class="inventory-zone" aria-label="Inventario de Consumibles">
+                <div class="inventory-header">
+                    <h3 class="inventory-title">CONSUMIBLES EN MANO</h3>
+                    <span id="inventory-capacity" class="inventory-slots-count">(0 / 4)</span>
+                </div>
+                <div id="inventory-items-list" class="inventory-items-container">
+                    <div class="empty-inventory-message">Sin consumibles. Visita la tienda para equiparte.</div>
+                </div>
+            </section>
+        </main>
+
+
+        <!-- ==================================================== -->
+        <!-- 4. TIENDA ROGUELIKE (3 OFERTAS ALEATORIAS POR ROL)    -->
+        <!-- ==================================================== -->
+        <dialog id="modal-shop" class="modal-dialog shop-modal-balatro" aria-labelledby="shop-title">
+            <div class="balatro-shop-layout">
+
+                <!-- BARRA LATERAL -->
+                <aside class="balatro-shop-sidebar">
+                    <div class="shop-keeper-frame">
+                        <div class="shop-keeper-avatar-wrapper">
+                            <img id="shop-keeper-img" class="shop-keeper-img" src="img/balatro-jimbo.gif" alt="Mascota de la Tienda">
+                        </div>
+                    </div>
+
+                    <!-- Marcador de Fondos Balatro -->
+                    <div class="balatro-funds-display">
+                        <span class="funds-label">TUS FICHAS</span>
+                        <div class="funds-amount">
+                            <span class="funds-dollar">$</span>
+                            <span id="shop-money-val">10</span>
+                        </div>
+                    </div>
+
+                    <!-- Botón Reroll estilo Balatro -->
+                    <button id="btn-reroll-shop" class="btn btn-balatro-reroll">
+                        <span class="reroll-title">REROLL</span>
+                        <span class="reroll-price">$2</span>
+                    </button>
+
+                    <!-- Botón para Salir / Continuar -->
+                    <button id="btn-close-shop" class="btn btn-balatro-next">
+                        CONTINUAR ➔
+                    </button>
+                </aside>
+
+                <!-- TABLERO PRINCIPAL: 3 POTENCIADORES ALEATORIOS EN OFERTA -->
+                <div class="balatro-shop-main">
+                    
+                    <!-- MARQUESINA SUPERIOR -->
+                    <div class="shop-top-marquee">
+                        <div class="marquee-headings">
+                            <h2 id="shop-title" class="balatro-shop-title">TIENDA</h2>
+                            <span class="shop-sub-tip">3 Ofertas seleccionadas al azar cada ronda o reroll</span>
+                        </div>
+                        <div class="marquee-quick-actions">
+                            <button id="btn-close-shop-quick" class="btn-close-compact" aria-label="Cerrar tienda">&times;</button>
+                        </div>
+                    </div>
+
+                    <!-- ESTANTE: SE INYECTAN 3 OFERTAS DEL CATÁLOGO -->
+                    <section class="shop-section shelf-enhancers">
+                        <div class="shelf-header-bar">
+                            <h3 class="shelf-category-title">OFERTAS DE LA RONDA (3)</h3>
+                            <span class="shelf-tip-tag">Usa Reroll para nuevas opciones</span>
+                        </div>
+                        
+                        <!-- Grid responsivo donde se inyectan 3 potenciadores dinámicamente -->
+                        <div id="shop-shelf-items" class="balatro-enhancers-grid"></div>
+                    </section>
+
+                </div>
+            </div>
+        </dialog>
+
+
+        <!-- ==================================================== -->
+        <!-- 5. INTERFAZ DE JOKERS (6 DIVISIONES FORMATO MÓVIL)  -->
+        <!-- ==================================================== -->
+        <dialog id="modal-jokers" class="modal-dialog jokers-modal" aria-labelledby="jokers-modal-title">
+            <div class="modal-content jokers-modal-content">
+                <header class="modal-header">
+                    <h2 id="jokers-modal-title" class="modal-title">🃏 JOKERS ACTIVOS (6 SLOTS)</h2>
+                    <button id="btn-close-jokers-top" class="btn-close" aria-label="Cerrar modal">&times;</button>
+                </header>
+                <div class="modal-body jokers-content">
+                    <p class="jokers-subheading">Consulta el efecto de cada Joker activo en la mesa:</p>
+                    
+                    <!-- Grid de 6 Jokers optimizada para celulares y escritorio -->
+                    <div id="jokers-grid" class="jokers-grid">
+                        <!-- Inyectados por JS -->
+                    </div>
+                </div>
+                <footer class="modal-footer">
+                    <button id="btn-close-jokers" class="btn btn-primary">Listo</button>
+                </footer>
+            </div>
+        </dialog>
+
+
+        <!-- ========================================== -->
+        <!-- 6. MODALES: REGLAS BASE Y DINERO MANUAL    -->
+        <!-- ========================================== -->
+
+        <!-- MODAL DE REGLAS BASE -->
+        <dialog id="modal-base-rules" class="modal-dialog rules-modal" aria-labelledby="rules-modal-title">
+            <div class="modal-content">
+                <header class="modal-header">
+                    <h2 id="rules-modal-title" class="modal-title">REGLAS BASE: 31 LOCO</h2>
+                    <button id="btn-close-rules-top" class="btn-close" aria-label="Cerrar modal">&times;</button>
+                </header>
+                <div class="modal-body rules-content">
+                    <section class="rules-section">
+                        <h3>Objetivo del Juego</h3>
+                        <p>Alcanzar 31 con las cartas que robas cada turno como en Black Jack, mientras aplicas mutaciones que voltean las partidas en cualquier momento.</p>
+                    </section>
+                    <section class="rules-section">
+                        <h3>Condiciones de Victoria</h3>
+                        <ul>
+                            <li>Gana la partida completa el primer jugador que sume <strong>3 rondas ganadas</strong>.</li>
+                            <li>La partida dura un ciclo estándar de <strong>7 rondas</strong>.</li>
+                            <li>Al llegar a la ronda 7, <strong>las monedas e ítems se mantienen acumulados</strong> para las siguientes fases roguelike.</li>
+                        </ul>
+                    </section>
+                    <section class="rules-section">
+                        <h3>Mecánica de Naipes</h3>
+                        <p>Cada vez que una carta digital es revelada en pantalla, su efecto afecta de inmediato la mesa. Las cartas <strong>7</strong> tienen mutaciones propias exclusivas por palo, y los <strong>Ases (A)</strong> cuentan ahora como <strong>cartas fuertes</strong> junto con <strong>J, Q y K</strong>.</p>
+                        <p><strong>Valores:</strong> El As (A) vale 1 u 11 a tu elección. Las cartas del 2 al 10 valen su número, y J, Q y K valen 10 cada una.</p>
+                    </section>
+                </div>
+                <footer class="modal-footer">
+                    <button id="btn-close-rules" class="btn btn-primary">Entendido</button>
+                </footer>
+            </div>
+        </dialog>
+
+        <!-- MODAL DE AJUSTE MANUAL DE DINERO -->
+        <dialog id="modal-manual-money" class="modal-dialog money-modal" aria-labelledby="money-modal-title">
+            <div class="modal-content">
+                <header class="modal-header">
+                    <h2 id="money-modal-title" class="modal-title">Ajuste Manual de Dinero</h2>
+                    <button id="btn-close-money-top" class="btn-close" aria-label="Cerrar modal">&times;</button>
+                </header>
+                <div class="modal-body">
+                    <p>Introduce la cantidad de monedas a modificar por eventos externos de la mesa:</p>
+                    <div class="money-input-group">
+                        <span class="currency-symbol">$</span>
+                        <input type="number" id="input-manual-money-amount" value="1" step="1" min="-999" max="999">
+                    </div>
+                </div>
+                <footer class="modal-footer">
+                    <button id="btn-apply-manual-money" class="btn btn-confirm">Aplicar Saldo</button>
+                    <button id="btn-cancel-manual-money" class="btn btn-secondary">Cancelar</button>
+                </footer>
+            </div>
+        </dialog>
+
+    </div>
+
+    <!-- ENLACE DEL SCRIPT JAVASCRIPT -->
+    <script src="app.js"></script>
+</body>
+</html>
